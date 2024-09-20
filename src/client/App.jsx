@@ -1,24 +1,43 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { CiCirclePlus } from "react-icons/ci";
 import "./App.scss";
 
 function App() {
-  const [textarea, setTextArea] = useState("");
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", data.file[0]);
+      formData.append("textarea", data.textarea);
+
+      //
+      const response = await fetch("/api/form/data", {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        reset();
+      } else {
+        throw new Error("Network Error", response.statusText);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="App">
       <h1>GroupMania Team Connect</h1>
       <div className="searchbar">
-        <form action="">
-          <CiCirclePlus size={24} className="searchIcon" type="submit" />
+        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+          <button type="submit">
+            <CiCirclePlus size={24} className="searchIcon" />
+          </button>
           <div className="inputs">
-            <input type="file" name="" id="" accept="image/*" />
-            <textarea
-              name=""
-              id=""
-              placeholder="Share Today"
-              onChange={(e) => setTextArea(e.target.value)}
-            ></textarea>
+            <input type="file" {...register("file")} accept="image/*" />
+            <textarea {...register("textarea")} placeholder="Share Today" />
           </div>
         </form>
       </div>

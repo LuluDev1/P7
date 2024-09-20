@@ -15,7 +15,7 @@
     min-width: 200px;
     height: fit-content;
     padding: 22px;
-    background-color: lighten($color: #000000, $amount: 2);
+    background-color: #141414;
     border-radius: 22px;
     display: flex;
     position: relative;
@@ -43,13 +43,17 @@
         padding: 12px;
       }
     }
-    .searchIcon {
-      color: white;
+    button {
       position: absolute;
       right: 30px;
-      transition: color 0.1s ease-in-out;
-      &:hover {
-        color: grey;
+      background-color: transparent;
+      border: none;
+      .searchIcon {
+        color: white;
+        transition: color 0.1s ease-in-out;
+        &:hover {
+          color: grey;
+        }
       }
     }
   }
