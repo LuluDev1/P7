@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiCirclePlus } from "react-icons/ci";
-import "./App.scss";
+import "../styles/Home.scss";
 
-function App() {
+function Home() {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
@@ -12,7 +12,7 @@ function App() {
       formData.append("file", data.file[0]);
       formData.append("textarea", data.textarea);
 
-      //
+      // TODO TRY AXIOS
       const response = await fetch("/api/form/data", {
         method: "POST",
         body: formData,
@@ -28,7 +28,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="homePage">
       <h1>GroupMania Team Connect</h1>
       <div className="searchbar">
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -37,7 +37,12 @@ function App() {
           </button>
           <div className="inputs">
             <input type="file" {...register("file")} accept="image/*" />
-            <textarea {...register("textarea")} placeholder="Share Today" />
+            <textarea
+              {...register("textarea")}
+              placeholder="Share Today"
+              required={true}
+              autoFocus
+            />
           </div>
         </form>
       </div>
@@ -45,4 +50,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
