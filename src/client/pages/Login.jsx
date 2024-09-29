@@ -2,8 +2,10 @@ import { useState } from "react";
 import "../styles/Login.scss";
 import image from "../assets/icon-left-font-monochrome-white.webp";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -31,11 +33,13 @@ const Login = () => {
       }
 
       const result = await response.json();
-      console.log("Login Successful:", result);
+      console.log("Login Successful");
+      navigate("/home");
     } catch (error) {
       console.error("Login Error:", error.message);
     } finally {
       setLoading(false);
+      reset();
     }
   };
 
@@ -57,11 +61,13 @@ const Login = () => {
       }
 
       const result = await response.json();
-      console.log("Signup Successful:", result);
+      console.log("Signup Successful:");
+      navigate("/home");
     } catch (error) {
       console.error("Signup Error:", error.message);
     } finally {
       setLoading(false);
+      reset();
     }
   };
 

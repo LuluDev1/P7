@@ -12,7 +12,6 @@ function Home() {
       formData.append("file", data.file[0]);
       formData.append("textarea", data.textarea);
 
-      // TODO TRY AXIOS
       const response = await fetch("/api/form/data", {
         method: "POST",
         body: formData,

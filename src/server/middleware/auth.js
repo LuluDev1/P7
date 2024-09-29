@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export default auth = (req, res, next) => {
-  try {
-   
-  } catch (error) {}
+export const auth = (req, res, next) => {
+  // Your authentication logic
+  next();
 };
