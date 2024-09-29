@@ -1,0 +1,55 @@
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt"; // Ensure bcrypt is imported
+import sql from "../db.js";
+
+const userSignUp = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await sql`SELECT email FROM users WHERE email = ${email}`;
+
+    if (user.length === 0) {
+      const hash = await bcrypt.hash(password, 10);
+      await sql`INSERT INTO users(email, password) VALUES(${email}, ${hash})`;
+      res.status(201).send("User added successfully");
+    } else {
+      res.status(400).send("User already exists. Please login.");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred during registration." });
+  }
+};
+
+const userLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user =
+      await sql`SELECT email, password, id FROM users WHERE email = ${email}`;
+
+    if (user.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user[0].password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+
+    const token = jwt.sign({ userId: user[0].id }, "Random", {
+      expiresIn: "24h",
+    });
+
+    res.status(200).json({
+      userId: user[0].id,
+      accessToken: token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export { userSignUp, userLogin };

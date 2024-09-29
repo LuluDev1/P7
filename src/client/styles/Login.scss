@@ -17,6 +17,24 @@
       height: 50px;
       object-fit: scale-down;
     }
+    .options {
+      ul {
+        display: flex;
+        justify-content: space-around;
+        li {
+          list-style: none;
+          border-bottom-width: 1px;
+          width: 80px;
+          text-align: center;
+          a {
+            color: grey;
+            &:hover {
+              color: white;
+            }
+          }
+        }
+      }
+    }
     form {
       padding: 22px;
       display: flex;
@@ -32,6 +50,7 @@
           border-radius: 12px;
           padding-left: 12px;
           font-weight: 600;
+          color: white;
         }
         &:nth-child(2) {
           margin-top: 22px;
