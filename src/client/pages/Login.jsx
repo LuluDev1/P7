@@ -14,6 +14,7 @@ const Login = () => {
   } = useForm();
   const [isLogIn, setIsLogIn] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [stateForm, setStateForm] = useState("login");
 
   const handleLogin = async (data) => {
     const { email, password } = data;
@@ -77,11 +78,36 @@ const Login = () => {
         <img src={image} alt="Logo" className="logo" />
         <div className="options">
           <ul>
-            <li>
-              <a onClick={() => setIsLogIn(true)}>Login</a>
+            <li
+              style={{
+                borderBottomWidth: "2px",
+                borderBottomColor:
+                  stateForm === "login" ? "grey" : "transparent",
+              }}
+            >
+              <a
+                onClick={() => {
+                  setIsLogIn(true);
+                  setStateForm("login");
+                }}
+              >
+                Login
+              </a>
             </li>
-            <li>
-              <a onClick={() => setIsLogIn(false)}>Sign Up</a>
+            <li
+              style={{
+                borderBottomColor:
+                  stateForm === "signup" ? "grey" : "transparent",
+              }}
+            >
+              <a
+                onClick={() => {
+                  setIsLogIn(false);
+                  setStateForm("signup");
+                }}
+              >
+                Sign Up
+              </a>
             </li>
           </ul>
         </div>

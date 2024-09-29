@@ -26,6 +26,10 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+     
+  },[]);
+
   return (
     <div className="homePage">
       <h1>GroupMania Team Connect</h1>

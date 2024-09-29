@@ -1,7 +1,7 @@
 import postgres from "postgres";
 
 const sql = postgres(
-  "postgresql://postgres:LMmKZJeQAWmicVHzIcdVaeAIUFfQgjzD@junction.proxy.rlwy.net:27263/groupomania"
+  "postgresql://postgres:LMmKZJeQAWmicVHzIcdVaeAIUFfQgjzD@junction.proxy.rlwy.net:27263/railway"
 );
 
 async function createUsersTable() {
