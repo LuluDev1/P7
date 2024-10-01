@@ -7,6 +7,6 @@ import { addComment } from "../controllers/comment-controllers.js";
 
 const router = express.Router();
 
-router.post("/addComment", auth, upload);
+router.post("/addComment", auth, addComment);
 
 export default router;

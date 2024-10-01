@@ -8,13 +8,18 @@ function Home() {
 
   const onSubmit = async (data) => {
     try {
+      const token = localStorage.getItem("token");
+
       const formData = new FormData();
       formData.append("file", data.file[0]);
       formData.append("textarea", data.textarea);
 
-      const response = await fetch("/api/form/data", {
+      const response = await fetch("/api/form/addComment", {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (response.ok) {
         reset();
@@ -25,10 +30,6 @@ function Home() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-     
-  },[]);
 
   return (
     <div className="homePage">

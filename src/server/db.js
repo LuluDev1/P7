@@ -31,5 +31,6 @@ async function createCommentsTable() {
     console.error("Error creating table:", error);
   }
 }
-
+createUsersTable();
+createCommentsTable();
 export default sql;

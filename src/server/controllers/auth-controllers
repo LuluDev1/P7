@@ -11,7 +11,7 @@ const userSignUp = async (req, res) => {
     if (user.length === 0) {
       const hash = await bcrypt.hash(password, 10);
       await sql`INSERT INTO users(email, password) VALUES(${email}, ${hash})`;
-      res.status(201).send("User added successfully");
+      res.status(200).send("User added successfully");
     } else {
       res.status(400).send("User already exists. Please login.");
     }
@@ -41,6 +41,7 @@ const userLogin = async (req, res) => {
     const token = jwt.sign({ userId: user[0].id }, "Random", {
       expiresIn: "24h",
     });
+
 
     res.status(200).json({
       userId: user[0].id,

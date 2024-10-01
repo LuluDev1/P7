@@ -34,6 +34,7 @@ const Login = () => {
       }
 
       const result = await response.json();
+      localStorage.setItem("token", result.accessToken);
       console.log("Login Successful");
       navigate("/home");
     } catch (error) {
@@ -61,7 +62,8 @@ const Login = () => {
         throw new Error(`Response status: ${response.status}`);
       }
 
-      const result = await response.json();
+     
+
       console.log("Signup Successful:");
       navigate("/home");
     } catch (error) {
