@@ -33,5 +33,5 @@ async function createCommentsTable() {
   }
 }
 // createUsersTable();
-createCommentsTable();
+// createCommentsTable();
 export default sql;

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiCirclePlus } from "react-icons/ci";
 import "../styles/Home.scss";
-
+import { message } from "antd";
 function Home() {
   const { register, handleSubmit, reset } = useForm();
-
+  const [messageApi, contextHolder] = message.useMessage();
   const onSubmit = async (data) => {
     try {
       const token = localStorage.getItem("token");
@@ -23,6 +23,10 @@ function Home() {
       });
       if (response.ok) {
         reset();
+        messageApi.open({
+          type: "success",
+          content: "Added comment!",
+        });
       } else {
         throw new Error("Network Error", response.statusText);
       }
@@ -32,25 +36,33 @@ function Home() {
   };
 
   return (
-    <div className="homePage">
-      <h1>GroupMania Team Connect</h1>
-      <div className="searchbar">
-        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-          <button type="submit">
-            <CiCirclePlus size={24} className="searchIcon" />
-          </button>
-          <div className="inputs">
-            <input type="file" {...register("file")} accept="image/*" />
-            <textarea
-              {...register("textarea")}
-              placeholder="Share Today"
-              required={true}
-              autoFocus
-            />
-          </div>
-        </form>
+    <>
+      {contextHolder}
+      <div className="homePage">
+        <h1>GroupMania Team Connect</h1>
+        <div className="searchbar">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            encType="multipart/form-data"
+            onSubmitFiledr
+          >
+            <button type="submit">
+              <CiCirclePlus size={24} className="searchIcon" />
+            </button>
+            <div className="inputs">
+              <input type="file" {...register("file")} accept="image/*" />
+              <textarea
+                {...register("textarea")}
+                placeholder="Share Today"
+                required={true}
+                autoFocus
+                minLength={3}
+              />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
