@@ -62,10 +62,8 @@ const Login = () => {
         throw new Error(`Response status: ${response.status}`);
       }
 
-     
-
       console.log("Signup Successful:");
-      navigate("/home");
+      await handleLogin(data);
     } catch (error) {
       console.error("Signup Error:", error.message);
     } finally {

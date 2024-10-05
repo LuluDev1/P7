@@ -8,6 +8,7 @@ async function createUsersTable() {
   try {
     await sql`CREATE TABLE users (
       id SERIAL PRIMARY KEY,             
+      userID uuid ,
       email VARCHAR(255) NOT NULL UNIQUE,  
       password VARCHAR(64) NOT NULL  
     );`;
@@ -22,7 +23,7 @@ async function createCommentsTable() {
   try {
     await sql`CREATE TABLE comments(
       id SERIAL PRIMARY KEY,
-      email VARCHAR(255) NOT NULL UNIQUE,
+      userID uuid ,
       comment VARCHAR(255) NOT NULL,
       fileloc VARCHAR(255)
     )`;
@@ -31,6 +32,6 @@ async function createCommentsTable() {
     console.error("Error creating table:", error);
   }
 }
-createUsersTable();
+// createUsersTable();
 createCommentsTable();
 export default sql;
