@@ -3,9 +3,13 @@ import { useForm } from "react-hook-form";
 import { CiCirclePlus } from "react-icons/ci";
 import "../styles/Home.scss";
 import { message } from "antd";
+
 function Home() {
+  //
   const { register, handleSubmit, reset } = useForm();
   const [messageApi, contextHolder] = message.useMessage();
+
+  //
   const onSubmit = async (data) => {
     try {
       const token = localStorage.getItem("token");
@@ -35,6 +39,10 @@ function Home() {
     }
   };
 
+  const getAllCommnets = async () => {};
+
+  useEffect(() => {}, []);
+
   return (
     <>
       {contextHolder}
@@ -61,6 +69,8 @@ function Home() {
             </div>
           </form>
         </div>
+
+        <div className="comments"></div>
       </div>
     </>
   );

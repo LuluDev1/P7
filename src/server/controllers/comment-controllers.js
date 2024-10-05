@@ -17,8 +17,18 @@ const addComment = async (req, res) => {
       `;
     res.status(200).send("Comment added successfully");
   } catch (error) {
-    res.status(500).send("erro");
+    res.status(500).send("error");
   }
 };
 
-export { addComment };
+const getAllComments = async (req, res) => {
+  const comments = await sql`SELECT comment,fileloc FROM comments `;
+  if (comments.length > 0) {
+    res.status(200).json(comments);
+  } else {
+    res.status(200).send("Error getting all comments");
+  }
+};
+
+const getUserComments = async (req, res) => {};
+export { addComment, getAllComments, getUserComments }; 

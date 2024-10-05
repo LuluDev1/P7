@@ -8,14 +8,10 @@ const userSignUp = async (req, res) => {
 
     const user = await sql`SELECT email FROM users WHERE email = ${email}`;
 
-    if (user.length === 0) {
-      const hash = await bcrypt.hash(password, 10);
-      const userID = uuidv4();
-      await sql`INSERT INTO users(email, userid, password) VALUES(${email}, ${userID}, ${hash})`;
-      res.status(200).send("User added successfully");
-    } else {
-      res.status(400).send("User already exists. Please login.");
-    }
+    const hash = await bcrypt.hash(password, 10);
+    const userID = uuidv4();
+    await sql`INSERT INTO users(email, userid, password) VALUES(${email}, ${userID}, ${hash})`;
+    res.status(200).send("User added successfully");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred during registration." });
