@@ -37,6 +37,7 @@ const Login = () => {
 
       const result = await response.json();
       localStorage.setItem("token", result.accessToken);
+      localStorage.setItem("email", result.email);
       console.log("Login Successful");
       navigate("/home");
     } catch (error) {

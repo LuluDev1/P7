@@ -2,16 +2,22 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt"; // Ensure bcrypt is imported
 import sql from "../db.js";
 import { v4 as uuidv4 } from "uuid";
+
 const userSignUp = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const user = await sql`SELECT email FROM users WHERE email = ${email}`;
 
-    const hash = await bcrypt.hash(password, 10);
-    const userID = uuidv4();
-    await sql`INSERT INTO users(email, userid, password) VALUES(${email}, ${userID}, ${hash})`;
-    res.status(200).send("User added successfully");
+    if (user.length === 0) {
+      const hash = await bcrypt.hash(password, 10);
+      const userID = uuidv4();
+      await sql`INSERT INTO users(email, userid, password) VALUES(${email}, ${userID}, ${hash})`;
+
+      res.status(200).send("User added successfully");
+    } else {
+      res.status(400).send("Already a User");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred during registration." });
@@ -40,6 +46,7 @@ const userLogin = async (req, res) => {
     });
 
     res.status(200).json({
+      email,
       userId: user[0].userid,
       accessToken: token,
     });

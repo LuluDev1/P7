@@ -61,8 +61,59 @@
     }
   }
   .comments {
+    width: 80%;
     height: 100%;
-    width: 100%;
+
     margin-top: 50px;
+
+    display: flex;
+    flex-wrap: wrap;
+    padding: 12px;
+    overflow: hidden;
+    overflow-y: auto;
+    .comment,
+    .expandedComment {
+      background-color: black;
+      width: 300px;
+      min-width: 150px;
+      max-width: 375px;
+      height: 65px;
+      margin: 10px;
+      border-radius: 12px;
+      background-color: #0a0a0a;
+      padding: 10px;
+      position: relative;
+      transition: height ease-in 0.2s;
+      .profile {
+        display: flex;
+        align-items: center;
+        p {
+          margin-left: 12px;
+        }
+      }
+      .commentCtn {
+        padding: 12px;
+        img {
+          width: 200px;
+          height: 150px;
+          border-radius: 12px;
+          object-fit: cover;
+          margin-top: 12px;
+        }
+      }
+      .icondown {
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+        transition: transform ease 0.1s;
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+      p {
+        color: white;
+        font-size: 12px;
+      }
+    }
   }
 }
