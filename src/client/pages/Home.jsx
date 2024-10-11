@@ -85,7 +85,7 @@ function Home() {
               <CiCirclePlus size={24} className="searchIcon" />
             </button>
             <div className="inputs">
-              <input type="file" {...register("file")} accept="image/*" />
+              <input type="file" {...register("file")} accept="image/*,video/*,/audio/*" />
               <textarea
                 {...register("textarea")}
                 placeholder="Share Today"
