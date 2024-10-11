@@ -22,7 +22,7 @@ const addComment = async (req, res) => {
 };
 
 const getAllComments = async (req, res) => {
-  const comments = await sql`SELECT comment,fileloc FROM comments `;
+  const comments = await sql`SELECT userid,comment,fileloc FROM comments `;
   if (comments.length > 0) {
     res.status(200).json(comments);
   } else {
@@ -31,4 +31,27 @@ const getAllComments = async (req, res) => {
 };
 
 const getUserComments = async (req, res) => {};
-export { addComment, getAllComments, getUserComments }; 
+
+const getUser = async (req, res) => {
+  try {
+    const { userid } = req.params;
+
+    const email = await sql`
+      SELECT email
+      FROM users
+      WHERE userid = ${userid}
+    `;
+
+    if (email.length > 0) {
+      res.status(200).json({ email: email[0].email }); // Return as JSON object
+    } else {
+      res.status(404).json({ error: "User not found." }); // Return error as JSON
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "An error occurred while fetching the email." });
+  }
+};
+
+
+export { addComment, getAllComments, getUserComments, getUser };

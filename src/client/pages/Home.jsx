@@ -67,7 +67,7 @@ function Home() {
 
   // Log comments after they have been updated
   useEffect(() => {
-    console.log(comments);
+    // console.log(comments);
   }, [comments]);
 
   return (
@@ -99,7 +99,7 @@ function Home() {
 
         <div className="comments">
           {comments.map((comment, index) => (
-            <Comment comment={comment} index={index} />
+            <Comment comment={comment} index={index} userid={comment.userid} />
           ))}
         </div>
       </div>

@@ -71,8 +71,7 @@
     padding: 12px;
     overflow: hidden;
     overflow-y: auto;
-    .comment,
-    .expandedComment {
+    .comment {
       background-color: black;
       width: 300px;
       min-width: 150px;
@@ -99,6 +98,7 @@
           border-radius: 12px;
           object-fit: cover;
           margin-top: 12px;
+          
         }
       }
       .icondown {
