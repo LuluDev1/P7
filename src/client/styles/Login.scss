@@ -24,14 +24,19 @@
         li {
           list-style: none;
           border-bottom-width: 10px;
-
+          padding: 12px;
+          border-radius: 12px;
           width: 80px;
           text-align: center;
-          a {
-            color: grey;
-            &:hover {
+          &:active,
+          :focus {
+            a {
               color: white;
             }
+          }
+          a {
+            color: grey;
+            font-weight: 600;
           }
         }
       }

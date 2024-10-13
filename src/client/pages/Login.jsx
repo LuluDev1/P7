@@ -94,8 +94,8 @@ const Login = () => {
               <li
                 style={{
                   borderBottomWidth: "2px",
-                  borderBottomColor:
-                    stateForm === "login" ? "grey" : "transparent",
+                  backgroundColor:
+                    stateForm === "login" ? "black" : "transparent",
                 }}
               >
                 <a
@@ -109,8 +109,8 @@ const Login = () => {
               </li>
               <li
                 style={{
-                  borderBottomColor:
-                    stateForm === "signup" ? "grey" : "transparent",
+                  backgroundColor:
+                    stateForm === "signup" ? "black" : "transparent",
                 }}
               >
                 <a

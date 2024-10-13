@@ -5,12 +5,16 @@ import "../styles/Home.scss";
 import { message, Avatar } from "antd";
 import Comment from "../components/Comment";
 import { UserOutlined } from "@ant-design/icons";
+import { IoMdMenu } from "react-icons/io";
 import image from "../assets/icon-left-font-monochrome-white.webp";
-
+import { useNavigate } from "react-router-dom";
 function Home() {
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [comments, setComments] = useState([]);
+
+  const [toggleNav, settoggleNav] = useState(false);
 
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
@@ -59,6 +63,20 @@ function Home() {
     }
   };
 
+  const logOut = async () => {
+    settoggleNav(false);
+    messageApi.open({
+      type: "loading",
+      content: "Logging Out",
+      duration: 0,
+    });
+    setTimeout(() => {
+      messageApi.destroy;
+      localStorage.removeItem("token");
+      navigate("/login");
+    }, 1500);
+  };
+
   useEffect(() => {
     getAllComments();
   }, []);
@@ -67,37 +85,67 @@ function Home() {
     <>
       {contextHolder}
       <div className="homePage">
-        {/* TODO Add navigation to page to delete and or logout user */}
-        <div className="userprofile">
-          <Avatar size={32} icon={<UserOutlined />} />
-          <p>Go to Account</p>
-        </div>
-        <img src={image} alt="App Logo" className="app_logo" />
-        <div className="searchbar">
-          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-            <button type="submit">
-              <CiCirclePlus size={24} className="searchIcon" />
-            </button>
-            <div className="inputs">
-              <input
-                type="file"
-                {...register("file")}
-                accept="image/*,video/*,audio/*"
-              />
-              <textarea
-                {...register("textarea")}
-                placeholder="Share Today"
-                required
-                autoFocus
-                minLength={3}
-              />
-            </div>
-          </form>
-        </div>
-        <div className="comments">
-          {comments.map((comment, index) => (
-            <Comment key={index} comment={comment} userid={comment.userid} />
-          ))}
+        <IoMdMenu
+          className="menu"
+          size={23}
+          color="white"
+          onClick={() => {
+            settoggleNav(!toggleNav);
+          }}
+        />
+        <nav
+          style={{
+            width: toggleNav ? "350px" : "0",
+            height: toggleNav ? "100px" : "0",
+            opacity: toggleNav ? "1" : "0",
+          }}
+        >
+          <ul>
+            <li>
+              <a href="#">Delete Account</a>
+            </li>
+            <li>
+              <a
+                onClick={() => {
+                  logOut();
+                }}
+              >
+                Log OUt
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div className="content">
+          <img src={image} alt="App Logo" className="app_logo" />
+          <div className="searchbar">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              encType="multipart/form-data"
+            >
+              <button type="submit">
+                <CiCirclePlus size={24} className="searchIcon" />
+              </button>
+              <div className="inputs">
+                <input
+                  type="file"
+                  {...register("file")}
+                  accept="image/*,video/*,audio/*"
+                />
+                <textarea
+                  {...register("textarea")}
+                  placeholder="Share Today"
+                  required
+                  autoFocus
+                  minLength={3}
+                />
+              </div>
+            </form>
+          </div>
+          <div className="comments">
+            {comments.map((comment, index) => (
+              <Comment key={index} comment={comment} userid={comment.userid} />
+            ))}
+          </div>
         </div>
       </div>
     </>
