@@ -2,62 +2,60 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiCirclePlus } from "react-icons/ci";
 import "../styles/Home.scss";
-import { message } from "antd";
+import { message, Avatar } from "antd";
 import Comment from "../components/Comment";
+import { UserOutlined } from "@ant-design/icons";
+import image from "../assets/icon-left-font-monochrome-white.webp";
+
 function Home() {
-  //
   const { register, handleSubmit, reset } = useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [comments, setComments] = useState([]);
 
-  //
   const onSubmit = async (data) => {
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
+
+    const formData = new FormData();
+    formData.append("file", data.file[0]);
+    formData.append("textarea", data.textarea);
+    formData.append("email", email);
+
     try {
-      const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
-
-      const formData = new FormData();
-      formData.append("file", data.file[0]);
-      formData.append("textarea", data.textarea);
-      formData.append("email", email);
-
       const response = await fetch("/api/form/addComment", {
         method: "POST",
         body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
+
       if (response.ok) {
         reset();
-        messageApi.open({
-          type: "success",
-          content: "Added comment!",
-        });
+        messageApi.open({ type: "success", content: "Added comment!" });
         getAllComments();
       } else {
-        throw new Error("Network Error", response.statusText);
+        throw new Error("Network Error: " + response.statusText);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error adding comment:", error);
     }
   };
 
   const getAllComments = async () => {
+    const token = localStorage.getItem("token");
+
     try {
-      const token = localStorage.getItem("token");
       const response = await fetch("/api/form/getAllComments", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
+
       if (!response.ok) {
         throw new Error("Error fetching comments");
       }
+
       const data = await response.json();
       setComments(data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching comments:", error);
     }
   };
 
@@ -65,41 +63,39 @@ function Home() {
     getAllComments();
   }, []);
 
-  // Log comments after they have been updated
-  useEffect(() => {
-    // console.log(comments);
-  }, [comments]);
-
   return (
     <>
       {contextHolder}
       <div className="homePage">
-        <h1>GroupMania Team Connect</h1>
+        <div className="userprofile">
+          <Avatar size={32} icon={<UserOutlined />} />
+          <p>Go to Account</p>
+        </div>
+        <img src={image} alt="App Logo" className="app_logo" />
         <div className="searchbar">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            encType="multipart/form-data"
-            onSubmitFiledr
-          >
+          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <button type="submit">
               <CiCirclePlus size={24} className="searchIcon" />
             </button>
             <div className="inputs">
-              <input type="file" {...register("file")} accept="image/*,video/*,/audio/*" />
+              <input
+                type="file"
+                {...register("file")}
+                accept="image/*,video/*,audio/*"
+              />
               <textarea
                 {...register("textarea")}
                 placeholder="Share Today"
-                required={true}
+                required
                 autoFocus
                 minLength={3}
               />
             </div>
           </form>
         </div>
-
         <div className="comments">
           {comments.map((comment, index) => (
-            <Comment comment={comment} index={index} userid={comment.userid} />
+            <Comment key={index} comment={comment} userid={comment.userid} />
           ))}
         </div>
       </div>

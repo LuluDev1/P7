@@ -30,8 +30,6 @@ const getAllComments = async (req, res) => {
   }
 };
 
-const getUserComments = async (req, res) => {};
-
 const getUser = async (req, res) => {
   try {
     const { userid } = req.params;
@@ -49,9 +47,14 @@ const getUser = async (req, res) => {
     }
   } catch (error) {
     console.error(error); // Log the error for debugging
-    res.status(500).json({ error: "An error occurred while fetching the email." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the email." });
   }
 };
 
+const deleteComment = async (req, res) => {};
 
-export { addComment, getAllComments, getUserComments, getUser };
+const deleteUser = async (req, res) => {};
+
+export { addComment, getAllComments, getUser };

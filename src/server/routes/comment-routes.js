@@ -8,7 +8,6 @@ import { auth } from "../middleware/auth.js";
 import {
   addComment,
   getAllComments,
-  getUserComments,
   getUser,
 } from "../controllers/comment-controllers.js";
 
@@ -16,8 +15,9 @@ import {
 const router = express.Router();
 
 router.post("/addComment", auth, upload, addComment);
+router.post("/deleteComment", auth);
+router.post("/deleteUser", auth);
 router.get("/getAllComments", auth, getAllComments);
 router.get("/getUser/:userid", auth, getUser);
-router.get("/getUserComments", auth, getUserComments);
 
 export default router;
