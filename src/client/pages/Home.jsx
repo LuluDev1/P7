@@ -67,6 +67,7 @@ function Home() {
     <>
       {contextHolder}
       <div className="homePage">
+        {/* TODO Add navigation to page to delete and or logout user */}
         <div className="userprofile">
           <Avatar size={32} icon={<UserOutlined />} />
           <p>Go to Account</p>

@@ -53,8 +53,10 @@ const getUser = async (req, res) => {
   }
 };
 
+// TODO Delete specific Comment
 const deleteComment = async (req, res) => {};
 
+// TODO Delete Specific User
 const deleteUser = async (req, res) => {};
 
 export { addComment, getAllComments, getUser };
