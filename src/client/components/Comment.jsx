@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
+// AntD
+import { Avatar } from "antd";
+// Icons
 import { UserOutlined } from "@ant-design/icons";
 import { FaCaretDown } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
-import { Avatar, message } from "antd";
 
 const Comment = ({ comment, commentkey, index, userid }) => {
-  const [expandedComment, setExpandedComment] = useState(false); // Handle comment expansion
+  // State Variables
+  const [expandedComment, setExpandedComment] = useState(false);
   const [userEmail, setUserEmail] = useState("");
 
+  // User Access Token
+  const token = localStorage.getItem("token");
+
+  /**
+   * @async Get Current User Email
+   */
   const getUser = async () => {
     try {
-      const token = localStorage.getItem("token");
+      // Fetch Request
       const response = await fetch(`/api/form/getUser/${userid}`, {
         method: "GET",
         headers: {
@@ -18,32 +27,42 @@ const Comment = ({ comment, commentkey, index, userid }) => {
         },
       });
 
+      // Check Response
       if (!response.ok) {
-        const errorText = await response.text(); // Get the error response as text
+        const errorText = await response.text();
         throw new Error(`Error fetching user: ${errorText}`);
       }
 
+      // If response OKAY Set State
       const data = await response.json();
-
       setUserEmail(data.email);
     } catch (error) {
       console.error(error);
     }
   };
 
+  /**
+   * @async Handle Deleting a Comment
+   */
   const handleDelete = async () => {
     try {
-      const token = localStorage.getItem("token");
+      console.log(userid);
+      // Fetch Request
       const response = await fetch(`/api/form/deleteComment/${commentkey}`, {
         method: "POST",
+        body: JSON.stringify({ userid }),
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      // Check Response
       if (!response.ok) {
-        const errorText = await response.text(); // Get the error response as text
+        const errorText = await response.text();
         throw new Error(`Error fetching user: ${errorText}`);
       }
+
+      // If no Error, Log and Realod
       console.log("Deleted Comment");
       window.location.reload();
     } catch (error) {
@@ -66,7 +85,7 @@ const Comment = ({ comment, commentkey, index, userid }) => {
       }}
       tabIndex="0"
       onClick={() => setExpandedComment(!expandedComment)} // Toggle expansion on click
-      onBlur={() => setExpandedComment(false)} // Collapse on blur
+      onBlur={() => setExpandedComment(false)}
     >
       <div className="profile">
         <Avatar size={24} icon={<UserOutlined />} />
@@ -84,11 +103,14 @@ const Comment = ({ comment, commentkey, index, userid }) => {
           }}
         />
       </div>
+
+      {/* Menu Button to Collapse and Expand Comment */}
       <FaCaretDown
         className="icondown"
         color="white"
         onClick={() => setExpandedComment(!expandedComment)} // Toggle expansion
       />
+      {/* Delete Button to delete comment */}
       <MdDeleteOutline
         color="white"
         onClick={() => handleDelete()}
