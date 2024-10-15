@@ -9,13 +9,14 @@ import {
   addComment,
   getAllComments,
   getUser,
+  deleteComment,
 } from "../controllers/comment-controllers.js";
 
 // Router
 const router = express.Router();
 
 router.post("/addComment", auth, upload, addComment);
-router.post("/deleteComment", auth);
+router.post("/deleteComment/:id", auth, deleteComment);
 router.post("/deleteUser", auth);
 router.get("/getAllComments", auth, getAllComments);
 router.get("/getUser/:userid", auth, getUser);

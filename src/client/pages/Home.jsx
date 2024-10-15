@@ -7,6 +7,7 @@ import Comment from "../components/Comment";
 import { UserOutlined } from "@ant-design/icons";
 import { IoMdMenu } from "react-icons/io";
 import image from "../assets/icon-left-font-monochrome-white.webp";
+
 import { useNavigate } from "react-router-dom";
 function Home() {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function Home() {
       }
 
       const data = await response.json();
+
       setComments(data);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -143,7 +145,12 @@ function Home() {
           </div>
           <div className="comments">
             {comments.map((comment, index) => (
-              <Comment key={index} comment={comment} userid={comment.userid} />
+              <Comment
+                commentkey={comment.id}
+                comment={comment}
+                userid={comment.userid}
+                index={index}
+              />
             ))}
           </div>
         </div>

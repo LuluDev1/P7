@@ -22,7 +22,7 @@ const addComment = async (req, res) => {
 };
 
 const getAllComments = async (req, res) => {
-  const comments = await sql`SELECT userid,comment,fileloc FROM comments `;
+  const comments = await sql`SELECT id,userid,comment,fileloc FROM comments `;
   if (comments.length > 0) {
     res.status(200).json(comments);
   } else {
@@ -53,10 +53,28 @@ const getUser = async (req, res) => {
   }
 };
 
-// TODO Delete specific Comment
-const deleteComment = async (req, res) => {};
+const deleteComment = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await sql`
+    DELETE FROM comments WHERE id=${id}
+  `;
+
+    if (result.rowCount === 0) {
+      console.log(`No comment found with id ${id}`);
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    console.log(`Comment with id ${id} deleted`);
+    return res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 
 // TODO Delete Specific User
 const deleteUser = async (req, res) => {};
 
-export { addComment, getAllComments, getUser };
+export { addComment, getAllComments, getUser, deleteComment, deleteUser };
