@@ -16,7 +16,7 @@ function Home() {
   const [comments, setComments] = useState([]);
 
   const [toggleNav, settoggleNav] = useState(false);
-
+  const token = localStorage.getItem("token");
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
@@ -35,7 +35,13 @@ function Home() {
 
       if (response.ok) {
         reset();
-        messageApi.open({ type: "success", content: "Added comment!" });
+        messageApi.open({
+          type: "success",
+          content: "Added comment!",
+        });
+        setTimeout(() => {
+          messageApi.destroy;
+        }, 100);
         getAllComments();
       } else {
         throw new Error("Network Error: " + response.statusText);
@@ -79,6 +85,33 @@ function Home() {
     }, 1500);
   };
 
+  const deleteAccount = async () => {
+    try {
+      const response = await fetch("/api/form/deleteUser", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        messageApi.error("Error Deleting Acount");
+        throw new Error(response.message);
+      }
+      messageApi.open({
+        type: "loading",
+        content: "Byyyeeee",
+        duration: 0,
+      });
+      setTimeout(() => {
+        messageApi.destroy;
+        localStorage.removeItem("token");
+        navigate("/login");
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getAllComments();
   }, []);
@@ -100,11 +133,12 @@ function Home() {
             width: toggleNav ? "350px" : "0",
             height: toggleNav ? "100px" : "0",
             opacity: toggleNav ? "1" : "0",
+            display: toggleNav ? "block" : "none",
           }}
         >
           <ul>
             <li>
-              <a href="#">Delete Account</a>
+              <a onClick={() => deleteAccount()}>Delete Account</a>
             </li>
             <li>
               <a
@@ -150,6 +184,7 @@ function Home() {
                 comment={comment}
                 userid={comment.userid}
                 index={index}
+                messageApi={messageApi}
               />
             ))}
           </div>
