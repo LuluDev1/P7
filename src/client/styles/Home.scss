@@ -6,6 +6,8 @@
   position: relative;
   overflow: hidden;
   font-family: "Open Sans";
+  padding-bottom: 30px;
+
   .menu {
     position: absolute;
     z-index: 2;
@@ -52,6 +54,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+   
 
     .app_logo {
       width: 100%;
@@ -64,6 +67,7 @@
     .searchbar {
       margin-top: 20px;
       max-width: 500px;
+      width: 300px;
       min-width: 200px;
       padding: 22px;
       background-color: #0a0a0a;
@@ -93,6 +97,7 @@
         textarea {
           min-height: 80px;
           max-width: 300px;
+          width: 300px;
           font-weight: 400;
           font-size: 16px;
         }
