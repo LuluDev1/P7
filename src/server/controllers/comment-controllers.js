@@ -48,7 +48,10 @@ const addComment = async (req, res) => {
 const getAllComments = async (req, res) => {
   try {
     const comments = await sql`
-      SELECT id, userid, comment, fileloc FROM comments
+      SELECT id, userid, comment, fileloc 
+      FROM comments
+      ORDER BY id DESC
+
     `;
 
     if (comments.length > 0) {

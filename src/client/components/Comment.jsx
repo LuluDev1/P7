@@ -6,9 +6,10 @@ import { UserOutlined } from "@ant-design/icons";
 import { FaCaretDown, FaKaaba } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
-const Comment = ({ comment, commentkey, index, userid, messageApi }) => {
+const Comment = ({ comment, commentkey, indexnum, userid, messageApi }) => {
   // State Variables
   const [expandedComment, setExpandedComment] = useState(false);
+  const [view, setView] = useState(false);
   const [userEmail, setUserEmail] = useState("");
 
   const fileType = () => {
@@ -113,17 +114,30 @@ const Comment = ({ comment, commentkey, index, userid, messageApi }) => {
 
   return (
     <div
-      key={index}
+      
       className="comment"
       style={{
-        height: expandedComment && fileType() ? "280px" : "100px", // Set height based on state
+        height: view ? "100px" : "50px",
+        height: expandedComment && fileType() ? "280px" : "100px",
       }}
     >
       <div className="profile">
-        <Avatar size={35} icon={<UserOutlined />} />
-        <p>{userEmail}</p>
+        <Avatar size={30} icon={<UserOutlined />} />
+        <p>{userEmail.split("@")[0]}</p>
+        <p
+          onClick={(e) => {
+            setView(!view);
+          }}
+        >
+          View Comment
+        </p>
       </div>
-      <div className="commentCtn">
+      <div
+        className="commentCtn"
+        style={{
+          display: view ? "" : "none",
+        }}
+      >
         <p>{comment.comment}</p>
 
         {fileType() === "image" ? (
@@ -167,7 +181,7 @@ const Comment = ({ comment, commentkey, index, userid, messageApi }) => {
       </div>
 
       {/* Menu Button to Collapse and Expand Comment */}
-      {fileType() ? (
+      {fileType() && view ? (
         <FaCaretDown
           className="icondown"
           color="white"
@@ -176,7 +190,7 @@ const Comment = ({ comment, commentkey, index, userid, messageApi }) => {
           }}
         />
       ) : null}
-      {fileType() ? (
+      {fileType() && view ? (
         <p
           className="show"
           onClick={() => {
@@ -191,7 +205,9 @@ const Comment = ({ comment, commentkey, index, userid, messageApi }) => {
         color="white"
         onClick={() => handleDelete()}
         size={18}
-        style={{}}
+        style={{
+          display: view ? "block" : "none",
+        }}
       />
     </div>
   );

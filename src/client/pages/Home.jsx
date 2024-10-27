@@ -183,7 +183,7 @@ function Home() {
                 commentkey={comment.id}
                 comment={comment}
                 userid={comment.userid}
-                index={index}
+                key={index}
                 messageApi={messageApi}
               />
             ))}
